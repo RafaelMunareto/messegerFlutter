@@ -1,11 +1,10 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:love_bank_messeger/Cadastro.dart';
 import 'package:love_bank_messeger/shared/button.dart';
 import 'package:love_bank_messeger/shared/input.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
-
   @override
   _LoginState createState() => _LoginState();
 }
@@ -60,7 +59,10 @@ class _LoginState extends State<Login> {
                 padding: EdgeInsets.only(bottom: 32),
                 child: Center(
                     child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Cadastro()));
+                  },
                   child: Text("Não possui conta? Cadastra-se!",
                       style: TextStyle(color: Color(0xff593799), fontSize: 16)),
                 )))
