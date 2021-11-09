@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1039378617066",
+    "project_id": "lovebankmesseger",
+    "storage_bucket": "lovebankmesseger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039378617066:android:35e09971eb910a0cfcfd93",
+        "android_client_info": {
+          "package_name": "com.loveBank.messeger.love_bank_messeger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039378617066-a52oomj0tcid6doq9gcsqupoaec4l5ne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFRykAJTCTTqeKxfKvTTtUCF1eUXtEHh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039378617066-a52oomj0tcid6doq9gcsqupoaec4l5ne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
