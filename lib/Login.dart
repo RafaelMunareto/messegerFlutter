@@ -1,5 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:love_bank_messeger/shared/button.dart';
+import 'package:love_bank_messeger/shared/input.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -12,89 +14,59 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      decoration: BoxDecoration(color: Color(0xfff0eaf9)),
-      padding: EdgeInsets.all(16),
-      child: Center(
+      body: Container(
           child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          verticalDirection: VerticalDirection.down,
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: 32),
-              child: Image.asset('imagens/logo.png', width: 200, height: 150),
-            ),
-            Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: TextField(
-                    autofocus: true,
-                    keyboardType: TextInputType.emailAddress,
-                    style: TextStyle(fontSize: 20),
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                        hintText: 'E-mail',
-                        filled: true,
-                        fillColor: Colors.white,
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Color(0xff593799), width: 2),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32))))),
-            Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    style: TextStyle(fontSize: 20),
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                        hintText: 'Senha',
-                        filled: true,
-                        fillColor: Colors.white,
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Color(0xff593799), width: 2),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32))))),
-            Padding(
-                padding: EdgeInsets.only(bottom: 8, right: 12),
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Text("Esqueceu a senha",
-                          style: TextStyle(color: Color(0xff593799))),
-                    ))),
-            Padding(
-              padding: EdgeInsets.only(top: 16, bottom: 10),
-              child: ElevatedButton(
-                child: Text(
-                  "Entrar",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+              padding: EdgeInsets.only(bottom: 16),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.20,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: ExactAssetImage("imagens/top_section.png"),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                style: ElevatedButton.styleFrom(
-                    primary: Color(0xff593799), // background
-                    onPrimary: Color(0xff593799),
-                    padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32.0))),
-                onPressed: () {},
               ),
             ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 32),
+              child: Image.asset('imagens/logo.png', width: 120, height: 120),
+            ),
+            Input(
+                label: 'Email',
+                type: TextInputType.emailAddress,
+                autofocus: true,
+                icon: Icons.account_circle),
+            Input(
+              label: 'Senha',
+              type: TextInputType.text,
+              obscureText: true,
+              icon: Icons.lock,
+            ),
+            Button(label: 'Login', tap: () {}),
+            Padding(
+                padding: EdgeInsets.only(bottom: 24),
+                child: Center(
+                    child: GestureDetector(
+                  onTap: () {},
+                  child: Text("Esqueceu a senha?",
+                      style: TextStyle(color: Color(0xff593799), fontSize: 18)),
+                ))),
             Padding(
                 padding: EdgeInsets.only(bottom: 32),
                 child: Center(
                     child: GestureDetector(
                   onTap: () {},
-                  child: Text("Não tem conta? Cadastra-se!",
-                      style: TextStyle(color: Color(0xff593799))),
+                  child: Text("Não possui conta? Cadastra-se!",
+                      style: TextStyle(color: Color(0xff593799), fontSize: 16)),
                 )))
           ],
         ),
       )),
-    ));
+    );
   }
 }
