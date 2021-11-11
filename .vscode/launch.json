@@ -5,9 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Flutter",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart"
+    },
+    {
       "name": "love_bank_messeger",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "args": ["--web-port", "4395", "-dchrome"]
     },
     {
       "name": "love_bank_messeger (profile mode)",

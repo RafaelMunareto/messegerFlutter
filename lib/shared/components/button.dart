@@ -12,6 +12,7 @@ class Button extends StatefulWidget {
 class _ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: EdgeInsets.only(top: 16, bottom: 10, right: 16, left: 16),
       child: ElevatedButton(
@@ -25,7 +26,7 @@ class _ButtonState extends State<Button> {
             padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
             shape: new RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(32.0))),
-        onPressed: widget.tap,
+        onPressed: widget.tap
       ),
     );
   }
