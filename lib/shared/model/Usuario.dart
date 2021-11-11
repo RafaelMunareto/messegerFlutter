@@ -10,7 +10,7 @@ class Usuario {
       "nome": this.nome,
       "email": this.email,
       "verificado": false,
-      "foto": ''
+      "foto": 'https://firebasestorage.googleapis.com/v0/b/lovebankmesseger.appspot.com/o/perfil%2Fdefault.png?alt=media&token=3887c241-51fc-4628-a6ba-5b95bb385ae4'
     };
 
     return map;

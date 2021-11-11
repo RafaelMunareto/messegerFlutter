@@ -35,9 +35,9 @@ class _CadastroState extends State<Cadastro> {
   }
 
   void _submit() {
-    if(!grupoEmail.contains(_controllerEmail.text.split('@')[1])){
+    if (!grupoEmail.contains(_controllerEmail.text.split('@')[1])) {
       createSnackBar('Email não pertence ao grupo.', Colors.red);
-    }else {
+    } else {
       setState(() => _submitted = true);
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
@@ -58,30 +58,37 @@ class _CadastroState extends State<Cadastro> {
     });
 
     FirebaseAuth auth = FirebaseAuth.instance;
-      auth.createUserWithEmailAndPassword(
-          email: usuario.email, password: usuario.senha)
-          .then((firebaseUser) {
-        firebaseUser.user!.updateDisplayName(usuario.nome).then((value) {
-          FirebaseFirestore db = FirebaseFirestore.instance;
-          db.collection('usuarios')
-              .doc(auth.currentUser!.uid)
-              .set(usuario.toMap());
-          createSnackBar('Email de validaçao enviado com sucesso.', Colors.green);
-        }).then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login(onSubmit: (String value) {  },))));
-      }).catchError((error) {
-        createSnackBar(
-            ErrorPtBr().verificaCodeErro('auth/' + error.code), Colors.red);
-        _controllerNome.text = '';
-        _controllerEmail.text = '';
-        _controllerSenha.text = '';
-        print(ErrorPtBr().verificaCodeErro('auth/' + error.code));
-      }).whenComplete(() {
-        Timer(Duration(seconds: 1), () =>
-            setState(() {
-              _isLoading = false;
-            })
-        );
-      });
+    auth
+        .createUserWithEmailAndPassword(
+            email: usuario.email, password: usuario.senha)
+        .then((firebaseUser) {
+      firebaseUser.user!.updateDisplayName(usuario.nome).then((value) {
+        FirebaseFirestore db = FirebaseFirestore.instance;
+        db
+            .collection('usuarios')
+            .doc(auth.currentUser!.uid)
+            .set(usuario.toMap());
+        createSnackBar('Email de validaçao enviado com sucesso.', Colors.green);
+      }).then((value) => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Login(
+                    onSubmit: (String value) {},
+                  ))));
+    }).catchError((error) {
+      createSnackBar(
+          ErrorPtBr().verificaCodeErro('auth/' + error.code), Colors.red);
+      _controllerNome.text = '';
+      _controllerEmail.text = '';
+      _controllerSenha.text = '';
+      print(ErrorPtBr().verificaCodeErro('auth/' + error.code));
+    }).whenComplete(() {
+      Timer(
+          Duration(seconds: 1),
+          () => setState(() {
+                _isLoading = false;
+              }));
+    });
   }
 
   void createSnackBar(String message, cor) {
@@ -90,8 +97,7 @@ class _CadastroState extends State<Cadastro> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void initState()
-  {
+  void initState() {
     FirebaseFirestore db = FirebaseFirestore.instance;
     db.collection('grupoEmail').get().then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
@@ -108,14 +114,19 @@ class _CadastroState extends State<Cadastro> {
         backgroundColor: Color(0xff6241A0),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Login(onSubmit: (String value) {  }))),
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Login(onSubmit: (String value) {}))),
         ),
       ),
-      body: _isLoading ? Loading() : Container(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
+      body: _isLoading
+          ? Loading()
+          : Container(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     verticalDirection: VerticalDirection.down,
                     children: [
@@ -168,12 +179,12 @@ class _CadastroState extends State<Cadastro> {
                               return '[Campo Obrigatório]';
                             }
 
-                            if(text.contains('@')){
+                            if (text.contains('@')) {
                               var email = text!.split('@')[1];
                               if (!grupoEmail.contains(email)) {
                                 return '[Grupo de email não autorizado.]';
                               }
-                            }else{
+                            } else {
                               return '[Coloque um email válido.]';
                             }
 
@@ -219,9 +230,9 @@ class _CadastroState extends State<Cadastro> {
                       ),
                     ],
                   ),
-          ),
-        ),
-      ),
+                ),
+              ),
+            ),
     );
   }
 }

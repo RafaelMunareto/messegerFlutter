@@ -1,6 +1,7 @@
 // ignore: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:love_bank_messeger/pages/auth/Login.dart';
 import 'package:love_bank_messeger/shared/components/button.dart';
 import 'package:love_bank_messeger/shared/components/input.dart';
 import 'package:love_bank_messeger/shared/functions/errorPtBr.dart';
@@ -61,7 +62,11 @@ class _ForgetState extends State<Forget> {
         backgroundColor: Color(0xff6241A0),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () =>
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Login(onSubmit: (String value) {})))
         ),
       ),
       body: Container(
