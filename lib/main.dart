@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:love_bank_messeger/pages/auth/Forget.dart';
 import 'package:love_bank_messeger/pages/auth/Login.dart';
 
 void main() async {

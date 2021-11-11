@@ -55,7 +55,7 @@ class _LoginState extends State<Login> {
         .signInWithEmailAndPassword(
         email: credentials.email, password: credentials.senha)
         .then((firebaseUser) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
     }).catchError((error) {
       createSnackBar(
           ErrorPtBr().verificaCodeErro('auth/' + error.code), Colors.red);
@@ -67,6 +67,28 @@ class _LoginState extends State<Login> {
         _isLoading = false;
       });
     });
+  }
+
+  Future _verificarUsuarioLogado() async {
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? usuarioLogado = await auth.currentUser;
+
+    if( usuarioLogado != null ){
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Home()
+          )
+      );
+    }
+
+  }
+
+  @override
+  void initState() {
+    _verificarUsuarioLogado();
+    super.initState();
   }
 
   void createSnackBar(String message, cor) {
@@ -139,7 +161,7 @@ class _LoginState extends State<Login> {
                   child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context,
+                          Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) => Forget(onSubmit: (String value) {  },)));
                         },
                         child: Text("Esqueceu a senha?",
@@ -150,7 +172,7 @@ class _LoginState extends State<Login> {
                   child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context,
+                          Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) => Cadastro(onSubmit: (String value) {  },)));
                         },
                         child: Text("Não possui conta? Cadastra-se!",

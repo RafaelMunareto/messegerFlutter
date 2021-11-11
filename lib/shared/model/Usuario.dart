@@ -5,6 +5,16 @@ class Usuario {
 
   Usuario(this.nome, this.email, this.senha);
 
+  Map<String, dynamic> toMap(){
+    Map<String, dynamic> map = {
+      "nome": this.nome,
+      "email": this.email,
+      "verificado": false,
+      "foto": ''
+    };
+
+    return map;
+  }
   String get getSenha => senha;
 
   set setSEnha(String value) {

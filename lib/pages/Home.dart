@@ -10,6 +10,61 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  String? _nameUsuario= "";
+
+  Future _recuperarDadosUsuario() async {
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? usuarioLogado = await auth.currentUser;
+
+    setState(() {
+      _nameUsuario = usuarioLogado!.displayName;
+    });
+
+  }
+
+
+    showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = ElevatedButton(
+      child: Text("Cancelar"),
+      onPressed:  () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = ElevatedButton(
+      child: Text("Sair"),
+      onPressed:  () {
+        FirebaseAuth auth = FirebaseAuth.instance;
+        auth.signOut().then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Login(onSubmit: (String value) {  }))));
+
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Logout"),
+      content: Text("Tem certeza que deseja sair ${_nameUsuario}? "),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    _recuperarDadosUsuario();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,8 +73,7 @@ class _HomeState extends State<Home> {
           backgroundColor: Color(0xff6241A0),
           actions: [
             IconButton(onPressed: () {
-              FirebaseAuth auth = FirebaseAuth.instance;
-              auth.signOut().then((value) => Navigator.pop(context, MaterialPageRoute(builder: (context) => Login(onSubmit: (String value) {  },))));
+              showAlertDialog(context);
             }, icon: Icon(Icons.logout) )
           ],
         ),
@@ -31,8 +85,7 @@ class _HomeState extends State<Home> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(bottom: 32),
-                  child:
-                      Image.asset('imagens/logo.png', width: 200, height: 150),
+                  child: Image.asset('imagens/logo.png', width: 200, height: 150),
                 )
               ],
             ),
