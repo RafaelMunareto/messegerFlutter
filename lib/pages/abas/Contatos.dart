@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:love_bank_messeger/pages/abas/Mensagens.dart';
 import 'package:love_bank_messeger/shared/model/Conversa.dart';
 
 
 class Contatos extends StatefulWidget {
-  const Contatos({Key? key}) : super(key: key);
-
   @override
   _ContatosState createState() => _ContatosState();
 }

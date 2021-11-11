@@ -1,11 +1,8 @@
 // ignore: file_names
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:love_bank_messeger/pages/auth/Login.dart';
-import 'package:love_bank_messeger/shared/functions/errorPtBr.dart';
+import 'package:love_bank_messeger/RouteGenerator.dart';
 
 class Confirmation extends StatefulWidget {
   @override
@@ -33,7 +30,7 @@ class _ConfirmationState extends State<Confirmation> {
   @override
   Widget build(BuildContext context) {
 
-    Timer(Duration(seconds: 3), () => Navigator.push(context, MaterialPageRoute(builder: (context) => Login(onSubmit: (String value) {}))));
+    Timer(Duration(seconds: 3), () =>  Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN));
 
     return Scaffold(
         appBar: AppBar(
@@ -41,12 +38,8 @@ class _ConfirmationState extends State<Confirmation> {
           backgroundColor: Color(0xff6241A0),
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Login(
-                          onSubmit: (String value) {},
-                        ))),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN)
           ),
         ),
         body: Container(

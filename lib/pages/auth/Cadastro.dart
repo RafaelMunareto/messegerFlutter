@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:love_bank_messeger/pages/auth/Login.dart';
+import 'package:love_bank_messeger/RouteGenerator.dart';
 import 'package:love_bank_messeger/shared/components/button.dart';
 import 'package:love_bank_messeger/shared/components/input.dart';
 import 'package:love_bank_messeger/shared/components/loading.dart';
@@ -13,7 +13,7 @@ import 'package:love_bank_messeger/shared/model/Usuario.dart';
 import 'package:validadores/Validador.dart';
 
 class Cadastro extends StatefulWidget {
-  const Cadastro({Key? key, required this.onSubmit}) : super(key: key);
+  const Cadastro(this.onSubmit);
   final ValueChanged<String> onSubmit;
 
   @override
@@ -39,8 +39,8 @@ class _CadastroState extends State<Cadastro> {
       createSnackBar('Email não pertence ao grupo.', Colors.red);
     } else {
       setState(() => _submitted = true);
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
+      if (_formKey.currentState.validate()) {
+        _formKey.currentState.save();
         Usuario usuario = Usuario(
           _controllerNome.text,
           _controllerEmail.text,
@@ -62,19 +62,15 @@ class _CadastroState extends State<Cadastro> {
         .createUserWithEmailAndPassword(
             email: usuario.email, password: usuario.senha)
         .then((firebaseUser) {
-      firebaseUser.user!.updateDisplayName(usuario.nome).then((value) {
+      firebaseUser.user.updateDisplayName(usuario.nome).then((value) {
         FirebaseFirestore db = FirebaseFirestore.instance;
         db
             .collection('usuarios')
-            .doc(auth.currentUser!.uid)
+            .doc(auth.currentUser.uid)
             .set(usuario.toMap());
         createSnackBar('Email de validaçao enviado com sucesso.', Colors.green);
-      }).then((value) => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Login(
-                    onSubmit: (String value) {},
-                  ))));
+      }).then((value) =>
+          Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN));
     }).catchError((error) {
       createSnackBar(
           ErrorPtBr().verificaCodeErro('auth/' + error.code), Colors.red);
@@ -98,6 +94,7 @@ class _CadastroState extends State<Cadastro> {
   }
 
   void initState() {
+    super.initState();
     FirebaseFirestore db = FirebaseFirestore.instance;
     db.collection('grupoEmail').get().then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
@@ -114,10 +111,8 @@ class _CadastroState extends State<Cadastro> {
         backgroundColor: Color(0xff6241A0),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Login(onSubmit: (String value) {}))),
+          onPressed: () =>
+              Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN)
         ),
       ),
       body: _isLoading
@@ -180,7 +175,7 @@ class _CadastroState extends State<Cadastro> {
                             }
 
                             if (text.contains('@')) {
-                              var email = text!.split('@')[1];
+                              var email = text.split('@')[1];
                               if (!grupoEmail.contains(email)) {
                                 return '[Grupo de email não autorizado.]';
                               }

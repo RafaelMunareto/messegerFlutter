@@ -3,8 +3,6 @@ import 'package:love_bank_messeger/shared/model/Conversa.dart';
 
 
 class Mensagens extends StatefulWidget {
-  const Mensagens({Key? key}) : super(key: key);
-
   @override
   _MensagensState createState() => _MensagensState();
 }

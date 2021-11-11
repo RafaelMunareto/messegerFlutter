@@ -5,22 +5,24 @@ import 'package:love_bank_messeger/pages/abas/Mensagens.dart';
 import 'package:love_bank_messeger/pages/auth/Login.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({Key key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  late TabController _tabController;
-  String? _nameUsuario = "";
-
+  TabController _tabController;
+  String _nameUsuario = "";
+  List<String> itensMenu = [
+    "Configurações", "Deslogar"
+  ];
   Future _recuperarDadosUsuario() async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    User? usuarioLogado = await auth.currentUser;
+    User usuarioLogado = await auth.currentUser;
 
     setState(() {
-      _nameUsuario = usuarioLogado!.displayName;
+      _nameUsuario = usuarioLogado.displayName;
     });
   }
 
@@ -35,11 +37,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     Widget continueButton = ElevatedButton(
       child: Text("Sair"),
       onPressed: () {
-        FirebaseAuth auth = FirebaseAuth.instance;
-        auth.signOut().then((value) => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Login(onSubmit: (String value) {}))));
+
       },
     );
     // set up the AlertDialog
@@ -73,18 +71,46 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
+  _escolhaMenuItem(String itemEscolhido){
+
+    switch( itemEscolhido ){
+      case "Configurações":
+        print("Configurações");
+        break;
+      case "Deslogar":
+        _deslogarUsuario();
+        break;
+    }
+  }
+
+  _deslogarUsuario()
+  {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.signOut().then((value) => Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Login((String value) {}))));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("LoveBank"),
         leading: Icon(Icons.all_inbox),
-        actions: [
-          IconButton(
-              onPressed: () {
-                showAlertDialog(context);
-              },
-              icon: Icon(Icons.logout))
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: _escolhaMenuItem,
+            itemBuilder: (context){
+              return itensMenu.map((String item){
+                return PopupMenuItem<String>(
+                  value: item,
+                  child: Text(item),
+                );
+              }).toList();
+            },
+          )
         ],
         bottom: TabBar(
           indicatorWeight: 4,

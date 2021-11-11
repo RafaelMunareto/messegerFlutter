@@ -1,7 +1,7 @@
 // ignore: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:love_bank_messeger/pages/auth/Login.dart';
+import 'package:love_bank_messeger/RouteGenerator.dart';
 import 'package:love_bank_messeger/shared/components/button.dart';
 import 'package:love_bank_messeger/shared/components/input.dart';
 import 'package:love_bank_messeger/shared/components/loading.dart';
@@ -9,7 +9,7 @@ import 'package:love_bank_messeger/shared/functions/errorPtBr.dart';
 import 'package:validadores/Validador.dart';
 
 class TrocaSenha extends StatefulWidget {
-  const TrocaSenha({Key? key, required this.onSubmit}) : super(key: key);
+  const TrocaSenha(this.onSubmit);
   final ValueChanged<String> onSubmit;
 
   @override
@@ -31,8 +31,8 @@ class _TrocaSenhaState extends State<TrocaSenha> {
 
   void _submit() {
     setState(() => _submitted = true);
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
 
       _alteraSenha(_controllerSenha.text, code);
       FocusScope.of(context).requestFocus(new FocusNode());
@@ -49,10 +49,7 @@ class _TrocaSenhaState extends State<TrocaSenha> {
     auth
         .confirmPasswordReset(newPassword: password, code: code)
         .then((firebaseUser) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Login(onSubmit: (String value) {})));
+      Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN);
     }).catchError((error) {
       createSnackBar(
           ErrorPtBr().verificaCodeErro('auth/' + error.code), Colors.red);
@@ -80,12 +77,7 @@ class _TrocaSenhaState extends State<TrocaSenha> {
         backgroundColor: Color(0xff6241A0),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Login(
-                        onSubmit: (String value) {},
-                      ))),
+          onPressed: () =>  Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN)
         ),
       ),
       body: _isLoading
@@ -153,12 +145,7 @@ class _TrocaSenhaState extends State<TrocaSenha> {
                       child: Center(
                           child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Login(
-                                        onSubmit: (String value) {},
-                                      )));
+                          Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN);
                         },
                         child: Text("Login",
                             style: TextStyle(

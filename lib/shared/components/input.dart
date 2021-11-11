@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:validadores/Validador.dart';
 
 class Input extends StatefulWidget {
   final label;
@@ -13,14 +12,14 @@ class Input extends StatefulWidget {
   final name;
   Input(
       {this.label,
-      this.type,
-      this.name,
-      this.obscureText = false,
-      this.autofocus = false,
-      this.validator,
+        this.type,
+        this.name,
+        this.obscureText = false,
+        this.autofocus = false,
+        this.validator,
         this.submit = false,
-      this.icon,
-      this.controller});
+        this.icon,
+        this.controller});
 
   @override
   _InputState createState() => _InputState();

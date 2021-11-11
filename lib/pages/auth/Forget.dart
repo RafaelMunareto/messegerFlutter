@@ -1,14 +1,14 @@
 // ignore: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:love_bank_messeger/pages/auth/Login.dart';
+import 'package:love_bank_messeger/RouteGenerator.dart';
 import 'package:love_bank_messeger/shared/components/button.dart';
 import 'package:love_bank_messeger/shared/components/input.dart';
 import 'package:love_bank_messeger/shared/functions/errorPtBr.dart';
 import 'package:validadores/Validador.dart';
 
 class Forget extends StatefulWidget {
-  const Forget({Key? key, required this.onSubmit}) : super(key: key);
+  const Forget(this.onSubmit);
   final ValueChanged<String> onSubmit;
 
   @override
@@ -27,8 +27,8 @@ class _ForgetState extends State<Forget> {
 
   void _submit() {
     setState(() => _submitted = true);
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
 
       _esqueceuSenha(_controllerEmail.text);
       FocusScope.of(context).requestFocus(new FocusNode());
@@ -63,10 +63,7 @@ class _ForgetState extends State<Forget> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () =>
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Login(onSubmit: (String value) {})))
+              Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN)
         ),
       ),
       body: Container(

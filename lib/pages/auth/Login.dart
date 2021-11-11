@@ -1,9 +1,7 @@
 // ignore: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:love_bank_messeger/pages/auth/Cadastro.dart';
-import 'package:love_bank_messeger/pages/Home.dart';
-import 'package:love_bank_messeger/pages/auth/Forget.dart';
+import 'package:love_bank_messeger/RouteGenerator.dart';
 import 'package:love_bank_messeger/shared/components/button.dart';
 import 'package:love_bank_messeger/shared/components/input.dart';
 import 'package:love_bank_messeger/shared/components/loading.dart';
@@ -12,7 +10,7 @@ import 'package:love_bank_messeger/shared/model/Credentials.dart';
 import 'package:validadores/Validador.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key, required this.onSubmit}) : super(key: key);
+  const Login(this.onSubmit);
   final ValueChanged<String> onSubmit;
   @override
   _LoginState createState() => _LoginState();
@@ -32,8 +30,8 @@ class _LoginState extends State<Login> {
 
   void _submit() {
     setState(() => _submitted = true);
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
       Credentials credencials = Credentials(
         _controllerEmail.text,
         _controllerSenha.text,
@@ -55,7 +53,7 @@ class _LoginState extends State<Login> {
         .signInWithEmailAndPassword(
         email: credentials.email, password: credentials.senha)
         .then((firebaseUser) {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+          Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.HOME, (_)=>false);
     }).catchError((error) {
       createSnackBar(
           ErrorPtBr().verificaCodeErro('auth/' + error.code), Colors.red);
@@ -72,15 +70,10 @@ class _LoginState extends State<Login> {
   Future _verificarUsuarioLogado() async {
 
     FirebaseAuth auth = FirebaseAuth.instance;
-    User? usuarioLogado = await auth.currentUser;
+    User usuarioLogado = await auth.currentUser;
 
     if( usuarioLogado != null ){
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Home()
-          )
-      );
+      Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN);
     }
 
   }
@@ -161,8 +154,7 @@ class _LoginState extends State<Login> {
                   child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => Forget(onSubmit: (String value) {  },)));
+                          Navigator.pushReplacementNamed(context, RouteGenerator.FORGET);
                         },
                         child: Text("Esqueceu a senha?",
                             style: TextStyle(color: Color(0xff593799), fontSize: 18)),
@@ -172,8 +164,7 @@ class _LoginState extends State<Login> {
                   child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => Cadastro(onSubmit: (String value) {  },)));
+                          Navigator.pushReplacementNamed(context, RouteGenerator.CADASTRO);
                         },
                         child: Text("Não possui conta? Cadastra-se!",
                             style: TextStyle(color: Color(0xff593799), fontSize: 16)),
