@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:love_bank_messeger/pages/Configuracoes.dart';
 import 'package:love_bank_messeger/pages/Home.dart';
 import 'package:love_bank_messeger/pages/auth/Cadastro.dart';
 import 'package:love_bank_messeger/pages/auth/Confirmation.dart';
@@ -15,6 +16,7 @@ class RouteGenerator {
   static const String EMAIL_VERIFY = '/email-verify';
   static const String FORGET = '/forget';
   static const String TROCA_SENHA = '/troca-senha';
+  static const String CONFIGURACOES = '/configuracoes';
 
   static Route<dynamic> generateRoute(RouteSettings settings){
 
@@ -47,6 +49,10 @@ class RouteGenerator {
       case TROCA_SENHA :
         return MaterialPageRoute(
             builder: (_) => TrocaSenha((_) {})
+        );
+      case CONFIGURACOES :
+        return MaterialPageRoute(
+            builder: (_) => Configuracoes()
         );
       default:
         _erroRota();
