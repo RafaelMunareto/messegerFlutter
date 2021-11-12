@@ -5,6 +5,7 @@ import 'package:love_bank_messeger/RouteGenerator.dart';
 import 'package:love_bank_messeger/shared/components/button.dart';
 import 'package:love_bank_messeger/shared/components/input.dart';
 import 'package:love_bank_messeger/shared/components/loading.dart';
+import 'package:love_bank_messeger/shared/components/snackbarCustom.dart';
 import 'package:love_bank_messeger/shared/functions/errorPtBr.dart';
 import 'package:validadores/Validador.dart';
 
@@ -51,8 +52,7 @@ class _TrocaSenhaState extends State<TrocaSenha> {
         .then((firebaseUser) {
       Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN);
     }).catchError((error) {
-      createSnackBar(
-          ErrorPtBr().verificaCodeErro('auth/' + error.code), Colors.red);
+      SnackbarCustom().createSnackBarErrorFirebase('auth/' + error.code, Colors.red, context);
       _controllerSenha.text = '';
       _controllerConfirmSenha.text = '';
       print(ErrorPtBr().verificaCodeErro('auth/' + error.code));
@@ -61,12 +61,6 @@ class _TrocaSenhaState extends State<TrocaSenha> {
         _isLoading = false;
       });
     });
-  }
-
-  void createSnackBar(String message, cor) {
-    final snackBar =
-        new SnackBar(content: new Text(message), backgroundColor: cor);
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override

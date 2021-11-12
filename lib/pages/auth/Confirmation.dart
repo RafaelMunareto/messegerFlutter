@@ -19,13 +19,6 @@ class _ConfirmationState extends State<Confirmation> {
 
   Future<void> _confirmation(code) async {}
 
-  void createSnackBar(String message, cor) {
-    final snackBar =
-    new SnackBar(content: new Text(message), backgroundColor: cor);
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-
 
   @override
   Widget build(BuildContext context) {

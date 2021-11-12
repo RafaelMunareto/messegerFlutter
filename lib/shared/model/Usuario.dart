@@ -2,15 +2,16 @@ class Usuario {
   String nome;
   String email;
   String senha;
+  String urlImagem;
 
-  Usuario(this.nome, this.email, this.senha);
+  Usuario(this.nome, this.email, this.senha, this.urlImagem);
 
   Map<String, dynamic> toMap(){
     Map<String, dynamic> map = {
       "nome": this.nome,
       "email": this.email,
       "verificado": false,
-      "foto": 'https://firebasestorage.googleapis.com/v0/b/lovebankmesseger.appspot.com/o/perfil%2Fdefault.png?alt=media&token=3887c241-51fc-4628-a6ba-5b95bb385ae4'
+      "urlImagem": this.urlImagem
     };
 
     return map;
@@ -31,5 +32,11 @@ class Usuario {
 
   set setNome(String value) {
     nome = value;
+  }
+
+  String get getUrlImagem => urlImagem;
+
+  set setUrlImagem(String value) {
+    urlImagem = value;
   }
 }

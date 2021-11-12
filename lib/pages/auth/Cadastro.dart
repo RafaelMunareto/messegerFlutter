@@ -8,12 +8,14 @@ import 'package:love_bank_messeger/RouteGenerator.dart';
 import 'package:love_bank_messeger/shared/components/button.dart';
 import 'package:love_bank_messeger/shared/components/input.dart';
 import 'package:love_bank_messeger/shared/components/loading.dart';
+import 'package:love_bank_messeger/shared/components/snackbarCustom.dart';
 import 'package:love_bank_messeger/shared/functions/errorPtBr.dart';
 import 'package:love_bank_messeger/shared/model/Usuario.dart';
 import 'package:validadores/Validador.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro(this.onSubmit);
+
   final ValueChanged<String> onSubmit;
 
   @override
@@ -36,16 +38,17 @@ class _CadastroState extends State<Cadastro> {
 
   void _submit() {
     if (!grupoEmail.contains(_controllerEmail.text.split('@')[1])) {
-      createSnackBar('Email não pertence ao grupo.', Colors.red);
+      SnackbarCustom()
+          .createSnackBar('Email não pertence ao grupo.', Colors.red, context);
     } else {
       setState(() => _submitted = true);
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
         Usuario usuario = Usuario(
-          _controllerNome.text,
-          _controllerEmail.text,
-          _controllerSenha.text,
-        );
+            _controllerNome.text,
+            _controllerEmail.text,
+            _controllerSenha.text,
+            'https://firebasestorage.googleapis.com/v0/b/lovebankmesseger.appspot.com/o/perfil%2Fdefault.png?alt=media&token=3887c241-51fc-4628-a6ba-5b95bb385ae4');
         _cadastrarUsuario(usuario);
         FocusScope.of(context).requestFocus(new FocusNode());
       }
@@ -68,12 +71,13 @@ class _CadastroState extends State<Cadastro> {
             .collection('usuarios')
             .doc(auth.currentUser.uid)
             .set(usuario.toMap());
-        createSnackBar('Email de validaçao enviado com sucesso.', Colors.green);
+        SnackbarCustom().createSnackBar(
+            'Email de validaçao enviado com sucesso.', Colors.green, context);
       }).then((value) =>
           Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN));
     }).catchError((error) {
-      createSnackBar(
-          ErrorPtBr().verificaCodeErro('auth/' + error.code), Colors.red);
+      SnackbarCustom().createSnackBarErrorFirebase(
+          'auth/' + error.code, Colors.red, context);
       _controllerNome.text = '';
       _controllerEmail.text = '';
       _controllerSenha.text = '';
@@ -85,12 +89,6 @@ class _CadastroState extends State<Cadastro> {
                 _isLoading = false;
               }));
     });
-  }
-
-  void createSnackBar(String message, cor) {
-    final snackBar =
-        new SnackBar(content: new Text(message), backgroundColor: cor);
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void initState() {
@@ -110,10 +108,9 @@ class _CadastroState extends State<Cadastro> {
         title: Text('Cadastro'),
         backgroundColor: Color(0xff6241A0),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () =>
-              Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN)
-        ),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN)),
       ),
       body: _isLoading
           ? Loading()

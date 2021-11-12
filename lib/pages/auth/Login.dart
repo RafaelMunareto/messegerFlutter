@@ -5,6 +5,7 @@ import 'package:love_bank_messeger/RouteGenerator.dart';
 import 'package:love_bank_messeger/shared/components/button.dart';
 import 'package:love_bank_messeger/shared/components/input.dart';
 import 'package:love_bank_messeger/shared/components/loading.dart';
+import 'package:love_bank_messeger/shared/components/snackbarCustom.dart';
 import 'package:love_bank_messeger/shared/functions/errorPtBr.dart';
 import 'package:love_bank_messeger/shared/model/Credentials.dart';
 import 'package:validadores/Validador.dart';
@@ -55,8 +56,7 @@ class _LoginState extends State<Login> {
         .then((firebaseUser) {
           Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.HOME, (_)=>false);
     }).catchError((error) {
-      createSnackBar(
-          ErrorPtBr().verificaCodeErro('auth/' + error.code), Colors.red);
+      SnackbarCustom().createSnackBarErrorFirebase('auth/' + error.code, Colors.red, context);
       _controllerEmail.text = '';
       _controllerSenha.text = '';
       print(ErrorPtBr().verificaCodeErro('auth/' + error.code));
@@ -73,7 +73,7 @@ class _LoginState extends State<Login> {
     User usuarioLogado = await auth.currentUser;
 
     if( usuarioLogado != null ){
-      Navigator.pushReplacementNamed(context, RouteGenerator.LOGIN);
+      Navigator.pushReplacementNamed(context, RouteGenerator.HOME);
     }
 
   }
@@ -84,92 +84,88 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
-  void createSnackBar(String message, cor) {
-    final snackBar =
-    new SnackBar(content: new Text(message), backgroundColor: cor);
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body:  _isLoading ? Loading() :  Container(
           child: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child:  Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            verticalDirection: VerticalDirection.down,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 16),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.20,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: ExactAssetImage("imagens/top_section.png"),
-                      fit: BoxFit.cover,
+        child: Container(
+          child: Form(
+            key: _formKey,
+            child:  Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              verticalDirection: VerticalDirection.down,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.20,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: ExactAssetImage("imagens/top_section.png"),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 32),
-                child: Image.asset('imagens/logo.png', width: 120, height: 120),
-              ),
-              Input(
-                  label: 'Email',
+                Padding(
+                  padding: EdgeInsets.only(bottom: 32),
+                  child: Image.asset('imagens/logo.png', width: 120, height: 120),
+                ),
+                Input(
+                    label: 'Email',
+                    submit: _submitted,
+                    name: (text) => setState(() => _name = text),
+                    type: TextInputType.emailAddress,
+                    controller: _controllerEmail,
+                    validator: (text) {
+                      return Validador()
+                          .add(Validar.EMAIL, msg: 'Email inválido')
+                          .valido(text);
+                    },
+                    icon: Icons.email),
+                Input(
+                  label: 'Senha',
                   submit: _submitted,
+                  type: TextInputType.text,
                   name: (text) => setState(() => _name = text),
-                  type: TextInputType.emailAddress,
-                  controller: _controllerEmail,
+                  obscureText: true,
+                  controller: _controllerSenha,
                   validator: (text) {
                     return Validador()
-                        .add(Validar.EMAIL, msg: 'Email inválido')
+                        .add(Validar.OBRIGATORIO)
+                        .minLength(6, msg: 'Min de 6 caracteres')
+                        .maxLength(50, msg: 'Max de 50 caracteres')
                         .valido(text);
                   },
-                  icon: Icons.email),
-              Input(
-                label: 'Senha',
-                submit: _submitted,
-                type: TextInputType.text,
-                name: (text) => setState(() => _name = text),
-                obscureText: true,
-                controller: _controllerSenha,
-                validator: (text) {
-                  return Validador()
-                      .add(Validar.OBRIGATORIO)
-                      .minLength(6, msg: 'Min de 6 caracteres')
-                      .maxLength(50, msg: 'Max de 50 caracteres')
-                      .valido(text);
-                },
-                icon: Icons.lock,
-              ),
-              Button(
-                label: 'Login',
-                tap: _name.isNotEmpty ? _submit : null,
-              ),
-              Padding(
-                  padding: EdgeInsets.only(bottom: 24),
-                  child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacementNamed(context, RouteGenerator.FORGET);
-                        },
-                        child: Text("Esqueceu a senha?",
-                            style: TextStyle(color: Color(0xff593799), fontSize: 18)),
-                      ))),
-              Padding(
-                  padding: EdgeInsets.only(bottom: 32),
-                  child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacementNamed(context, RouteGenerator.CADASTRO);
-                        },
-                        child: Text("Não possui conta? Cadastra-se!",
-                            style: TextStyle(color: Color(0xff593799), fontSize: 16)),
-                      )))
-            ],
+                  icon: Icons.lock,
+                ),
+                Button(
+                  label: 'Login',
+                  tap: _name.isNotEmpty ? _submit : null,
+                ),
+                Padding(
+                    padding: EdgeInsets.only(bottom: 24),
+                    child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacementNamed(context, RouteGenerator.FORGET);
+                          },
+                          child: Text("Esqueceu a senha?",
+                              style: TextStyle(color: Color(0xff593799), fontSize: 18)),
+                        ))),
+                Padding(
+                    padding: EdgeInsets.only(bottom: 32),
+                    child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacementNamed(context, RouteGenerator.CADASTRO);
+                          },
+                          child: Text("Não possui conta? Cadastra-se!",
+                              style: TextStyle(color: Color(0xff593799), fontSize: 16)),
+                        )))
+              ],
+            ),
           ),
         )
       )),

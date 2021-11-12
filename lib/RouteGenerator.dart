@@ -10,6 +10,7 @@ import 'package:love_bank_messeger/pages/auth/TrocaSenha.dart';
 
 class RouteGenerator {
 
+  static const String INITIAL = '/';
   static const String HOME = '/home';
   static const String LOGIN = '/login';
   static const String CADASTRO = '/cadastro';
@@ -22,7 +23,7 @@ class RouteGenerator {
 
 
     switch( settings.name ){
-      case "/" :
+      case INITIAL :
         return MaterialPageRoute(
             builder: (_) => Login((_) {})
         );
