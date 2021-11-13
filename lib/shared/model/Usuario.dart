@@ -1,42 +1,57 @@
-class Usuario {
-  String nome;
-  String email;
-  String senha;
-  String urlImagem;
 
-  Usuario(this.nome, this.email, this.senha, this.urlImagem);
+class Usuario {
+  String _uid;
+  String _nome;
+  String _email;
+  String _urlImagem;
+  String _senha;
+
+  Usuario();
+
+
 
   Map<String, dynamic> toMap(){
+
     Map<String, dynamic> map = {
-      "nome": this.nome,
-      "email": this.email,
-      "verificado": false,
-      "urlImagem": this.urlImagem
+      "uid": this.uid,
+      "nome" : this.nome,
+      "email" : this.email,
+      "urlImagem" : this.urlImagem
     };
 
     return map;
-  }
-  String get getSenha => senha;
 
-  set setSEnha(String value) {
-    senha = value;
   }
 
-  String get getEmail => email;
+  String get uid => _uid;
 
-  set setEnail(String value) {
-    email = value;
+  set uid(String value) {
+    _uid = value;
   }
 
-  String get getNome => nome;
+  String get senha => _senha;
 
-  set setNome(String value) {
-    nome = value;
+  set senha(String value) {
+    _senha = value;
   }
 
-  String get getUrlImagem => urlImagem;
+  String get urlImagem => _urlImagem;
 
-  set setUrlImagem(String value) {
-    urlImagem = value;
+  set urlImagem(String value) {
+    _urlImagem = value;
   }
+
+  String get email => _email;
+
+  set email(String value) {
+    _email = value;
+  }
+
+  String get nome => _nome;
+
+  set nome(String value) {
+    _nome = value;
+  }
+
+
 }

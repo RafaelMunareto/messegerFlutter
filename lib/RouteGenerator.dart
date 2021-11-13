@@ -14,10 +14,10 @@ class RouteGenerator {
   static const String INITIAL = '/';
   static const String HOME = '/home';
   static const String LOGIN = '/login';
-  static const String CADASTRO = '/cadastro';
-  static const String EMAIL_VERIFY = '/email-verify';
-  static const String FORGET = '/forget';
-  static const String TROCA_SENHA = '/troca-senha';
+  // static const String CADASTRO = '/cadastro';
+  // static const String EMAIL_VERIFY = '/email-verify';
+  // static const String FORGET = '/forget';
+  // static const String TROCA_SENHA = '/troca-senha';
   static const String CONFIGURACOES = '/configuracoes';
   static const String MENSAGENS = '/mensagens';
 
@@ -35,29 +35,29 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => Login((_) {})
         );
-      case CADASTRO:
-        return MaterialPageRoute(
-            builder: (_) => Cadastro((_) {})
-        );
+      // case CADASTRO:
+      //   return MaterialPageRoute(
+      //       builder: (_) => Cadastro((_) {})
+      //   );
       case HOME :
         return MaterialPageRoute(
             builder: (_) => Home()
         );
-      case EMAIL_VERIFY:
-        return MaterialPageRoute(
-            builder: (_) => Confirmation()
-        );
-      case FORGET :
-        return MaterialPageRoute(
-            builder: (_) => Forget((_) {})
-        );
-      case TROCA_SENHA :
-        return MaterialPageRoute(
-            builder: (_) => TrocaSenha((_) {})
-        );
+      // case EMAIL_VERIFY:
+      //   return MaterialPageRoute(
+      //       builder: (_) => Confirmation()
+      //   );
+      // case FORGET :
+      //   return MaterialPageRoute(
+      //       builder: (_) => Forget((_) {})
+      //   );
+      // case TROCA_SENHA :
+      //   return MaterialPageRoute(
+      //       builder: (_) => TrocaSenha((_) {})
+      //   );
       case CONFIGURACOES :
         return MaterialPageRoute(
-            builder: (_) => Configuracoes()
+            builder: (_) => Configuracoes((_) {})
         );
       case MENSAGENS :
         return MaterialPageRoute(

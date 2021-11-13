@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:love_bank_messeger/RouteGenerator.dart';
+import 'package:love_bank_messeger/pages/auth/recuperaDadosUsuario.dart';
 import 'package:love_bank_messeger/shared/model/Usuario.dart';
 
 class AbaContatos extends StatefulWidget {
@@ -21,8 +22,12 @@ class _AbaContatosState extends State<AbaContatos> {
     List<Usuario> listaUsuarios = [];
     querySnapshot.docs.forEach((doc) {
       if (doc["email"] != _emailUsuarioLogado) {
-        Usuario usuario =
-            Usuario(doc["nome"], '', doc["email"], doc["urlImagem"]);
+        Usuario usuario = Usuario();
+        usuario.uid = doc.reference.id;
+        usuario.nome = doc['nome'];
+        usuario.nome = doc['nome'];
+        usuario.email = doc['email'];
+        usuario.urlImagem = doc['urlImagem'];
         listaUsuarios.add(usuario);
       }
     });
@@ -30,17 +35,14 @@ class _AbaContatosState extends State<AbaContatos> {
     return listaUsuarios;
   }
 
-  _recuperarDadosUsuario() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User usuarioLogado = await auth.currentUser;
-    _idUsuarioLogado = usuarioLogado.uid;
-    _emailUsuarioLogado = usuarioLogado.email;
-  }
-
   @override
   void initState() {
+    RecuperaDadosUsuario().dadosUsuario().then((value) {
+      _idUsuarioLogado = value['uid'];
+      _emailUsuarioLogado = value['email'];
+    }).then((value) => _recuperarContatos());
+
     super.initState();
-    _recuperarDadosUsuario();
   }
 
   @override

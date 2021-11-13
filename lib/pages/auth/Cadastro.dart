@@ -44,11 +44,11 @@ class _CadastroState extends State<Cadastro> {
       setState(() => _submitted = true);
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
-        Usuario usuario = Usuario(
-            _controllerNome.text,
-            _controllerEmail.text,
-            _controllerSenha.text,
-            'https://firebasestorage.googleapis.com/v0/b/lovebankmesseger.appspot.com/o/perfil%2Fdefault.png?alt=media&token=3887c241-51fc-4628-a6ba-5b95bb385ae4');
+        Usuario usuario;
+            usuario.nome = _controllerNome.text;
+            usuario.email = _controllerEmail.text;
+            usuario.senha = _controllerSenha.text;
+            usuario.urlImagem = 'https://firebasestorage.googleapis.com/v0/b/lovebankmesseger.appspot.com/o/perfil%2Fdefault.png?alt=media&token=3887c241-51fc-4628-a6ba-5b95bb385ae4';
         _cadastrarUsuario(usuario);
         FocusScope.of(context).requestFocus(new FocusNode());
       }

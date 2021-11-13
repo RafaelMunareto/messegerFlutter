@@ -1,9 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:love_bank_messeger/RouteGenerator.dart';
 import 'package:love_bank_messeger/pages/abas/AbaContatos.dart';
 import 'package:love_bank_messeger/pages/abas/AbaMensagens.dart';
-import 'package:love_bank_messeger/pages/auth/Login.dart';
+import 'package:love_bank_messeger/pages/auth/recuperaDadosUsuario.dart';
+
+import 'auth/usuarioLogado.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -13,19 +14,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
+  String _nome = '';
   TabController _tabController;
-  String _nameUsuario = "";
   List<String> itensMenu = [
     "Configurações", "Deslogar"
   ];
-  Future _recuperarDadosUsuario() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User usuarioLogado = await auth.currentUser;
 
-    setState(() {
-      _nameUsuario = usuarioLogado.displayName;
-    });
-  }
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
@@ -38,13 +32,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     Widget continueButton = ElevatedButton(
       child: Text("Sair"),
       onPressed: () {
-
+        UsuarioLogado().deslogar(context);
       },
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Logout"),
-      content: Text("Tem certeza que deseja sair ${_nameUsuario}? "),
+      content: Text("Tem certeza que deseja sair ${_nome}? "),
       actions: [
         cancelButton,
         continueButton,
@@ -61,9 +55,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    UsuarioLogado().deslogado(context);
+    RecuperaDadosUsuario().dadosUsuario().then((value) {
+      setState(() {
+        _nome = value['nome'];
+      });
+    });
     super.initState();
 
-    _recuperarDadosUsuario();
 
     _tabController = TabController(
       initialIndex: 0,
@@ -80,20 +79,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         break;
         break;
       case "Deslogar":
-        _deslogarUsuario();
+        showAlertDialog(context);
         break;
     }
   }
-
-  _deslogarUsuario()
-  {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    auth.signOut().then((value) => Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Login((String value) {}))));
-  }
-
 
   @override
   Widget build(BuildContext context) {

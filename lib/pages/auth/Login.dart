@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:love_bank_messeger/RouteGenerator.dart';
+import 'package:love_bank_messeger/pages/auth/usuarioLogado.dart';
 import 'package:love_bank_messeger/shared/components/button.dart';
 import 'package:love_bank_messeger/shared/components/input.dart';
 import 'package:love_bank_messeger/shared/components/loading.dart';
@@ -67,20 +68,11 @@ class _LoginState extends State<Login> {
     });
   }
 
-  Future _verificarUsuarioLogado() async {
 
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User usuarioLogado = await auth.currentUser;
-
-    if( usuarioLogado != null ){
-      Navigator.pushReplacementNamed(context, RouteGenerator.HOME);
-    }
-
-  }
 
   @override
   void initState() {
-    _verificarUsuarioLogado();
+    UsuarioLogado().logado(context);
     super.initState();
   }
 
@@ -144,26 +136,26 @@ class _LoginState extends State<Login> {
                   label: 'Login',
                   tap: _name.isNotEmpty ? _submit : null,
                 ),
-                Padding(
-                    padding: EdgeInsets.only(bottom: 24),
-                    child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacementNamed(context, RouteGenerator.FORGET);
-                          },
-                          child: Text("Esqueceu a senha?",
-                              style: TextStyle(color: Color(0xff593799), fontSize: 18)),
-                        ))),
-                Padding(
-                    padding: EdgeInsets.only(bottom: 32),
-                    child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacementNamed(context, RouteGenerator.CADASTRO);
-                          },
-                          child: Text("Não possui conta? Cadastra-se!",
-                              style: TextStyle(color: Color(0xff593799), fontSize: 16)),
-                        )))
+                // Padding(
+                //     padding: EdgeInsets.only(bottom: 24),
+                //     child: Center(
+                //         child: GestureDetector(
+                //           onTap: () {
+                //             Navigator.pushReplacementNamed(context, RouteGenerator.FORGET);
+                //           },
+                //           child: Text("Esqueceu a senha?",
+                //               style: TextStyle(color: Color(0xff593799), fontSize: 18)),
+                //         ))),
+                // Padding(
+                //     padding: EdgeInsets.only(bottom: 32),
+                //     child: Center(
+                //         child: GestureDetector(
+                //           onTap: () {
+                //             Navigator.pushReplacementNamed(context, RouteGenerator.CADASTRO);
+                //           },
+                //           child: Text("Não possui conta? Cadastra-se!",
+                //               style: TextStyle(color: Color(0xff593799), fontSize: 16)),
+                //         )))
               ],
             ),
           ),
