@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:love_bank_messeger/pages/Configuracoes.dart';
 import 'package:love_bank_messeger/pages/Home.dart';
+import 'package:love_bank_messeger/pages/Mensagens.dart';
 import 'package:love_bank_messeger/pages/auth/Cadastro.dart';
 import 'package:love_bank_messeger/pages/auth/Confirmation.dart';
 import 'package:love_bank_messeger/pages/auth/Forget.dart';
@@ -18,10 +19,13 @@ class RouteGenerator {
   static const String FORGET = '/forget';
   static const String TROCA_SENHA = '/troca-senha';
   static const String CONFIGURACOES = '/configuracoes';
+  static const String MENSAGENS = '/mensagens';
+
 
   static Route<dynamic> generateRoute(RouteSettings settings){
 
-
+    final args = settings.arguments;
+    
     switch( settings.name ){
       case INITIAL :
         return MaterialPageRoute(
@@ -54,6 +58,10 @@ class RouteGenerator {
       case CONFIGURACOES :
         return MaterialPageRoute(
             builder: (_) => Configuracoes()
+        );
+      case MENSAGENS :
+        return MaterialPageRoute(
+            builder: (_) => Mensagens(args)
         );
       default:
         _erroRota();

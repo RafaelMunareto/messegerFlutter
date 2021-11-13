@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:love_bank_messeger/pages/abas/Contatos.dart';
-import 'package:love_bank_messeger/pages/abas/Mensagens.dart';
+import 'package:love_bank_messeger/RouteGenerator.dart';
+import 'package:love_bank_messeger/pages/abas/AbaContatos.dart';
+import 'package:love_bank_messeger/pages/abas/AbaMensagens.dart';
 import 'package:love_bank_messeger/pages/auth/Login.dart';
 
 class Home extends StatefulWidget {
@@ -75,7 +76,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     switch( itemEscolhido ){
       case "Configurações":
-        Navigator.pushNamed(context, "/configuracoes");
+        Navigator.pushNamed(context, RouteGenerator.CONFIGURACOES);
         break;
         break;
       case "Deslogar":
@@ -125,7 +126,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
       body: TabBarView(
         controller: _tabController,
-        children: <Widget>[Mensagens(), Contatos()],
+        children: <Widget>[AbaMensagens(), AbaContatos()],
       ),
     );
   }

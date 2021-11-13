@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:love_bank_messeger/shared/model/Conversa.dart';
 
 
-class Contatos extends StatefulWidget {
+class AbaMensagens extends StatefulWidget {
   @override
-  _ContatosState createState() => _ContatosState();
+  _AbaMensagensState createState() => _AbaMensagensState();
 }
 
-class _ContatosState extends State<Contatos> {
+class _AbaMensagensState extends State<AbaMensagens> {
 
   List<Conversa> listaConversas = [
     Conversa(
@@ -58,6 +58,13 @@ class _ContatosState extends State<Contatos> {
                   fontWeight: FontWeight.bold,
                   fontSize: 16
               ),
+            ),
+            subtitle: Text(
+                conversa.mensagem,
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14
+                )
             ),
           );
 
