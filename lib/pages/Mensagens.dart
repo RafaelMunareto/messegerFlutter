@@ -61,7 +61,7 @@ class _MensagensState extends State<Mensagens> {
               child: Column(
                 children: <Widget>[
                   ListaMensagens(_idUsuarioLogado, widget.contato.uid),
-                  CaixaMensagens(_idUsuarioLogado, widget.contato.uid),
+                  CaixaMensagens(_idUsuarioLogado, widget.contato.uid, contato: widget.contato),
                 ],
               ),
             )
