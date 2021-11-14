@@ -74,7 +74,7 @@ flutter:
     - imagens/top_section.png
     - imagens/logo_coracao.png
     - imagens/body_section.png
-    - imagens/imagem_fundo.jpg
+    - imagens/imagem_fundo.jfif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

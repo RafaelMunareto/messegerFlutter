@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:love_bank_messeger/pages/auth/recuperaDadosUsuario.dart';
 import 'package:love_bank_messeger/shared/components/caixaMensagens.dart';
-import 'package:love_bank_messeger/shared/components/listViewMensagens.dart';
+import 'package:love_bank_messeger/shared/components/listaMensagens.dart';
 import 'package:love_bank_messeger/shared/model/Usuario.dart';
 
 class Mensagens extends StatefulWidget {
@@ -16,23 +17,7 @@ class Mensagens extends StatefulWidget {
 class _MensagensState extends State<Mensagens> {
 
   String _idUsuarioLogado;
-  String _idUsuarioDestinatario;
-
-  List<String> listaMensagens = [
-    "Olá meu amigo, tudo bem?",
-    "Tudo ótimo!!! e contigo?",
-    "Estou muito bem!! queria ver uma coisa contigo, você vai na corrida de sábado?",
-    "Não sei ainda :(",
-    "Pq se você fosse, queria ver se posso ir com você...",
-    "Posso te confirma no sábado? vou ver isso",
-    "Opa! tranquilo",
-    "Excelente!!",
-    "Estou animado para essa corrida, não vejo a hora de chegar! ;) ",
-    "Vai estar bem legal!! muita gente",
-    "vai sim!",
-    "Lembra do carro que tinha te falado",
-    "Que legal!!"
-  ];
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -40,12 +25,9 @@ class _MensagensState extends State<Mensagens> {
     RecuperaDadosUsuario().dadosUsuario().then((value) {
       setState(() {
         _idUsuarioLogado = value['uid'];
-        _idUsuarioDestinatario = widget.contato.uid;
-        print( widget.contato);
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +51,7 @@ class _MensagensState extends State<Mensagens> {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("imagens/imagem_fundo.jpg"),
+                image: AssetImage("imagens/imagem_fundo.jfif"),
                 fit: BoxFit.cover
             )
         ),
@@ -78,8 +60,8 @@ class _MensagensState extends State<Mensagens> {
               padding: EdgeInsets.all(8),
               child: Column(
                 children: <Widget>[
-                  ListViewMensagens(this.listaMensagens),
-                  CaixaMensagens(_idUsuarioLogado, _idUsuarioDestinatario),
+                  ListaMensagens(_idUsuarioLogado, widget.contato.uid),
+                  CaixaMensagens(_idUsuarioLogado, widget.contato.uid),
                 ],
               ),
             )

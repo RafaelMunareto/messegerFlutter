@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:love_bank_messeger/pages/Configuracoes.dart';
 import 'package:love_bank_messeger/pages/Home.dart';
 import 'package:love_bank_messeger/pages/Mensagens.dart';
-import 'package:love_bank_messeger/pages/auth/Cadastro.dart';
-import 'package:love_bank_messeger/pages/auth/Confirmation.dart';
-import 'package:love_bank_messeger/pages/auth/Forget.dart';
 import 'package:love_bank_messeger/pages/auth/Login.dart';
-import 'package:love_bank_messeger/pages/auth/TrocaSenha.dart';
 
 
 class RouteGenerator {

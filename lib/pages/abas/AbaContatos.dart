@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:love_bank_messeger/RouteGenerator.dart';
 import 'package:love_bank_messeger/pages/auth/recuperaDadosUsuario.dart';
@@ -13,6 +12,7 @@ class AbaContatos extends StatefulWidget {
 class _AbaContatosState extends State<AbaContatos> {
   String _idUsuarioLogado;
   String _emailUsuarioLogado;
+  Usuario usuario = Usuario();
 
   Future<List<Usuario>> _recuperarContatos() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -22,7 +22,6 @@ class _AbaContatosState extends State<AbaContatos> {
     List<Usuario> listaUsuarios = [];
     querySnapshot.docs.forEach((doc) {
       if (doc["email"] != _emailUsuarioLogado) {
-        Usuario usuario = Usuario();
         usuario.uid = doc.reference.id;
         usuario.nome = doc['nome'];
         usuario.nome = doc['nome'];
@@ -37,12 +36,13 @@ class _AbaContatosState extends State<AbaContatos> {
 
   @override
   void initState() {
+    super.initState();
+    _recuperarContatos();
     RecuperaDadosUsuario().dadosUsuario().then((value) {
       _idUsuarioLogado = value['uid'];
       _emailUsuarioLogado = value['email'];
-    }).then((value) => _recuperarContatos());
+    });
 
-    super.initState();
   }
 
   @override

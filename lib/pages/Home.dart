@@ -77,7 +77,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       case "Configurações":
         Navigator.pushNamed(context, RouteGenerator.CONFIGURACOES);
         break;
-        break;
       case "Deslogar":
         showAlertDialog(context);
         break;
