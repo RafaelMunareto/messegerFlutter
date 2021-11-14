@@ -168,7 +168,7 @@ class _CaixaMensagensState extends State<CaixaMensagens> {
               padding: EdgeInsets.only(right: 8),
               child: TextField(
                 controller: _controllerMensagem,
-                autofocus: true,
+                autofocus: false,
                 keyboardType: TextInputType.text,
                 style: TextStyle(fontSize: 16),
                 decoration: InputDecoration(

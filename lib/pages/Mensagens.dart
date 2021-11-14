@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:love_bank_messeger/pages/auth/recuperaDadosUsuario.dart';
@@ -18,6 +20,8 @@ class _MensagensState extends State<Mensagens> {
 
   String _idUsuarioLogado;
   FirebaseFirestore db = FirebaseFirestore.instance;
+  final _controllerStream = StreamController<QuerySnapshot>.broadcast();
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -25,8 +29,27 @@ class _MensagensState extends State<Mensagens> {
     RecuperaDadosUsuario().dadosUsuario().then((value) {
       setState(() {
         _idUsuarioLogado = value['uid'];
+        _adicionarListenerMensagens();
+
       });
     });
+  }
+
+  Stream<QuerySnapshot> _adicionarListenerMensagens() {
+    final stream = db
+        .collection("mensagens")
+        .doc(_idUsuarioLogado)
+        .collection(widget.contato.uid)
+        .orderBy('data', descending: true)
+        .snapshots();
+
+    stream.listen((dados) {
+      _controllerStream.add(dados);
+      Timer(Duration(seconds: 1), (){
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      } );
+    });
+
   }
 
   @override
@@ -60,7 +83,7 @@ class _MensagensState extends State<Mensagens> {
               padding: EdgeInsets.all(8),
               child: Column(
                 children: <Widget>[
-                  ListaMensagens(_idUsuarioLogado, widget.contato.uid),
+                  ListaMensagens(_idUsuarioLogado, widget.contato.uid, _controllerStream, _scrollController),
                   CaixaMensagens(_idUsuarioLogado, widget.contato.uid, contato: widget.contato),
                 ],
               ),
