@@ -60,7 +60,7 @@ class _MensagensState extends State<Mensagens> {
               padding: EdgeInsets.all(8),
               child: Column(
                 children: <Widget>[
-                  ListaMensagens(_idUsuarioLogado, widget.contato.uid),
+                  GestureDetector(child: ListaMensagens(_idUsuarioLogado, widget.contato.uid)),
                   CaixaMensagens(_idUsuarioLogado, widget.contato.uid, contato: widget.contato),
                 ],
               ),
